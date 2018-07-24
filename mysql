@@ -1,0 +1,33 @@
+create table dept (dep_id varchar(10)primary key,depname varchar(10),depmanager varchar(10));
+create table employee(e_id varchar(10) primary key,name varchar(10),dep_id varchar(10),salary integer,managerid varchar(10), foreign key(dep_id) references dept(dept_id));
+
+1.select * from employee order by salary desc  limit 3 ;
+a142|tara cummings|d04|99475|a187
+a132|paul vincent|d01|94791|a120
+a128|adam wayne|d05|94324|a165
+2.select e_id,salary from employee order by salary asc  limit 1;
+a111|15380
+3.select e_id,name from employee where managerid not in(select a.e_id  from employee a join dept b on a.name=b.depmanager);
+a178|bruce wills
+a120|tim archer
+a187|adam justin
+a165|natansha stevens
+a156|nick martin
+4. select a.e_id,a.name,a.managerid from employee a join dept b on b.depmanager=a.name;
+a178|bruce wills|a298
+a120|tim archer|a298
+a187|adam justin|a298
+a165|natansha stevens|a298
+6.select count(*) from employee group by dep_id having dep_id='d02';
+6
+5.select e_id,name,min(salary)from employee where salary in(select a.salary from employee a join dept b on a.name=b.depmanager);
+a165|natansha stevens|31377
+7.select e_id,max(salary) from employee where salary in(select a.salary from employee a join dept b on a.dep_id=b.dep_id and depname='finance');
+a128|94324
+8.select e_id,min(salary) from employee where salary in(select a.salary from employee a join dept b on a.dep_id=b.dep_id and depname='products');
+a156|50174
+9.select count(salary) from employee where salary in (select max(salary) from employee where salary in(select a.salary from employee a join dept b on a.dep_id=b.dep_id and depname='health'));
+1
+10. select e_id,name from employee where managerid=(select e_id  from employee a join dept b on a.name=b.depmanager and name='natansha stevens');
+a128|adam wayne
+a129|joesph angelin
